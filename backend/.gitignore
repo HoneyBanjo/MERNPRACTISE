@@ -1,0 +1,4 @@
+
+#ignore this shit
+/node_modules
+.env
