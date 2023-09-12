@@ -1,12 +1,12 @@
 require('dotenv').config();
 
 const express = require('express')
-const mongooose = require('mongoose')
+const mongoose = require('mongoose')
 
+const workoutRoutes = require('./routes/workouts')
 
 
 const port = process.env.PORT
-const workoutRoutes = require('./routes/workouts')
 
 // express app
 const app = express();
@@ -24,7 +24,29 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/workouts", workoutRoutes);
 
-// listen for requests
-app.listen(port, () => {
-    console.log("listening on port ", port)
+// // connect to DB CLOUD
+// mongoose.connect(process.env.ATLASCONN)
+// .then(() => {
+//     // listen for requests
+//     app.listen(port, () => {
+//     console.log("Connected to DB Cloud and listening on port ", port)
+// })
+// })
+// .catch ((error) => {
+//     console.log(error)
+// })
+
+// Connect to DB LOCAL
+mongoose.connect(process.env.LOCALCONN)
+.then(() => {
+    // listen for requests
+    app.listen(port, () => {
+    console.log("Connected to DB Local and listening on port ", port)
 })
+})
+.catch ((error) => {
+    console.log(error)
+})
+
+
+
