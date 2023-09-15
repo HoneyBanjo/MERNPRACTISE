@@ -26,29 +26,29 @@ app.use((req, res, next) => {
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/user", userRoutes);
 
-// connect to DB CLOUD
-mongoose.connect(process.env.ATLASCONN)
-.then(() => {
-    // listen for requests
-    app.listen(port, () => {
-    console.log("Connected to DB Cloud and listening on port ", port)
-})
-})
-.catch ((error) => {
-    console.log(error)
-})
-
-// // Connect to DB LOCAL
-// mongoose.connect(process.env.LOCALCONN)
+// // connect to DB CLOUD
+// mongoose.connect(process.env.ATLASCONN)
 // .then(() => {
 //     // listen for requests
 //     app.listen(port, () => {
-//     console.log("Connected to DB Local and listening on port ", port)
+//     console.log("Connected to DB Cloud and listening on port ", port)
 // })
 // })
 // .catch ((error) => {
 //     console.log(error)
 // })
+
+// Connect to DB LOCAL
+mongoose.connect(process.env.LOCALCONN)
+.then(() => {
+    // listen for requests
+    app.listen(port, () => {
+    console.log("Connected to DB Local and listening on port ", port)
+})
+})
+.catch ((error) => {
+    console.log(error)
+})
 
 
 
