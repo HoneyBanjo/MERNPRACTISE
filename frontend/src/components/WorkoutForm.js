@@ -69,7 +69,7 @@ const WorkoutForm = () => {
                 className={emptyFields.includes("load") ? 'error' : ''}
             />
 
-            <label>Exercize title:</label>
+            <label>Reps:</label>
             <input
                 type="number"
                 onChange={(e) => setReps(e.target.value)}

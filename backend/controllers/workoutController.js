@@ -5,11 +5,13 @@ const mongoose = require('mongoose')
 // get all workouts
 
 const get_workouts = async (req, res) => {
-    const workouts = await Workout.find({}).sort({createdAt: -1})
+    const user_id = req.user._id
 
-    res.status(200).json(workouts)
+  const workouts = await Workout.find({user_id}).sort({createdAt: -1})
+
+  res.status(200).json(workouts)
 }
-
+ 
 // get a single workout
 const get_workout = async (req, res) => {
     const { id } = req.params // the part that is added after the route: "/:id"
@@ -51,7 +53,8 @@ const create_workout = async (req, res) => {
     }
 
     try {
-        const workout = await Workout.create({title, load, reps})
+        const user_id = req.user._id
+        const workout = await Workout.create({title, load, reps, user_id})
         res.status(200).json(workout)
 
     } catch (error) {
