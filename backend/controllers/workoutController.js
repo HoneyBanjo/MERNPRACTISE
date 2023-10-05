@@ -1,8 +1,7 @@
 const Workout = require('../models/workoutModel')
 const mongoose = require('mongoose')
 
-// Does this work
-data = 0;
+
 // get all workouts
 
 const get_workouts = async (req, res) => {
