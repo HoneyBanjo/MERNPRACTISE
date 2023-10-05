@@ -1,9 +1,9 @@
+const openai = require('../config/openaiConfig')
 const Workout = require('../models/workoutModel')
 const mongoose = require('mongoose')
 
 
 // get all workouts
-
 const get_workouts = async (req, res) => {
     const user_id = req.user._id
 
@@ -29,8 +29,6 @@ const get_workout = async (req, res) => {
 
     res.status(200).json(workout)
 }
-
-
 
 // create a new workout
 const create_workout = async (req, res) => {
@@ -100,6 +98,32 @@ const update_workout = async (req, res) => {
     res.status(200).json(workout)
 }
 
+// recommend workout !!!!!!!!!!!!!!!!
+const generate_workout = async ( req, res) => {
+    const {gender, weight, height} = req.body
+    
+    console.log(gender, weight, height)
+
+
+    const workout = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{
+            "role": "user",
+            "content": `Create a workout of 4 exercises for a ${gender} with the height of ${height} and weight of ${weight} and only give the name, load and repetitions of the exercize`,
+        }]
+    })
+
+    // add the workout to a Users workout suggestions History??
+
+
+
+    res.status(200).json({
+        workout: workout.choices[0].message
+      })
+
+    // res.status(200).json(infos)
+
+}
 
 
 // export files
@@ -109,5 +133,6 @@ module.exports = {
     get_workouts,
     get_workout,
     delete_workout,
-    update_workout
+    update_workout,
+    generate_workout
 }

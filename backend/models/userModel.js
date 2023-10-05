@@ -14,6 +14,18 @@ const userSchema = new Schema ({
     password: {
         type: String,
         required: true
+    },
+    gender: {
+        type: String,
+        // required: true
+    },
+    weight: {
+        type: String,
+        // required: true
+    },
+    height: {
+        type: String,
+        // required: true
     }
 })
 
@@ -46,6 +58,17 @@ userSchema.statics.signup = async function(email, password) {
 
     return user
 }
+
+// static user info method !!!!!!!!!!!!!!!!
+// userSchema.statics.signup = async function(gender, weight, height) {
+
+//     if ( !gender || !weight || !height) {
+//         throw Error("fill your info you silly person")
+//     }
+
+//     const user = await 
+
+// }
 
 
 // static login method

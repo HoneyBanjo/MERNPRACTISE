@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Suggestion from "./Suggestion";
 
 const WorkoutForm = () => {
     const {dispatch} = useWorkoutsContext()
@@ -12,6 +13,7 @@ const WorkoutForm = () => {
     const [error, setError] = useState("")
     const [emptyFields, setEmptyFields] = useState([])
 
+    const [suggestion, setSuggestion] = useState("")
 
 
     const handleSubmit = async (e) => {
@@ -49,7 +51,10 @@ const WorkoutForm = () => {
         }
     } 
 
+
+
     return (
+        <div>
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add a new Workout</h3>
 
@@ -80,6 +85,11 @@ const WorkoutForm = () => {
             <button>Add workout</button>
             {error && <div className="error">{error}</div>}
         </form>
+
+        <Suggestion />
+
+        </div>
+        
 
     )
 }
