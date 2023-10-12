@@ -4,16 +4,22 @@ import { useAuthContext } from "../hooks/useAuthContext"
 
 const Suggestion = () => {
 
-    const { user } = useAuthContext()
 
+    // USER STUFF
+    const { user } = useAuthContext()
     const [suggestion, setSuggestion] = useState([])
-    
+    const [isLoading, setIsLoading] = useState(false)
+    const [again, setAgain] = useState(true)
 
     const [sendUser, setSendUser] = useState({
         gender: "",
         height: "",
         weight: ""
     })
+
+    // WORKOUT STUFF
+
+    
     
     useEffect(() => {
         // This effect will run whenever sendUser changes
@@ -47,9 +53,12 @@ const Suggestion = () => {
             }
         })
         const json = await response.json()
+
+        
   
 
         const unformatted = json.workout.content
+        console.log("this is answer: ", json.workout.content)
         const formatSections = unformatted.split('\n\n');
         const formatObjects = [];
         
@@ -61,7 +70,7 @@ const Suggestion = () => {
             for (const line of lines) {
                 const [key, value] = line.split(': ');
                 // data[key.startsWith('- ') ? key.slice(2) : key] = value;
-                if (!key.startsWith('- ')) {
+                if (!key.startsWith(' - ')) {
                     data[key] = value;
                   }
                 data[key] = value;
@@ -84,31 +93,42 @@ const Suggestion = () => {
 
 
         
-        console.log(formatObjects)
+        console.log("this is formatted objects: ", formatObjects)
         
 
         
 
         setSuggestion(formatObjects)
+        setIsLoading(true)
+        setAgain(false)
         
 
     }
 
+    const handleAccept = (e) => {
+        e.preventDefault()
+
+
+
+
+    }
 
 
     return ( 
         <div>
-            <button onClick={handleClick}> This will give a suggestion </button>
+            <button onClick={handleClick}> {again ? "Want a suggestion ?" : "Want another one?"} </button>
             
             <div>
-            {suggestion.map((exercise, index) => (
-            <div key={index} className="exercise">
-            <h2>{Object.values(exercise)[0]}</h2>
-            <p>Load: {exercise['Load']}</p>
-            <p>Repetitions: {exercise['Repetitions']}</p>
-        </div>
-      ))}
+                {suggestion.map((exercise, index) => (
+                    <div key={index} className="exercise">
+                        <h2>{Object.values(exercise)[0]}</h2>
+                        <p>Load: {exercise['Load']}</p>
+                        <p>Repetitions: {exercise['Repetitions']}</p>
+                    </div>
+                ))}
             </div>
+            {isLoading && <button onClick={handleAccept}> Accept the challenging workout</button>}
+            
         </div>
 
      );

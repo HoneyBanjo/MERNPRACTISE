@@ -15,3 +15,11 @@
 -Email validation?
 
 -Add Page to update userDetails?
+
+
+NEXT
+Position the suggestion so that the user can see it while adding work outs
+
+Add a history
+
+Make a session card that contains the workouts.

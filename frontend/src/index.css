@@ -5,14 +5,20 @@
 :root {
   --primary: #1aac83;
   --error: #e7195a;
+  --base: #1e2127;
+  --sub: #0b8b32;
+  --counter: #8b002a;
+  --light-counter: #e60235;
+  --dark: #18191e;
+  --light: rgb(255, 247, 247);
 }
 body {
-  background: #f1f1f1;
+  background: var(--dark);
   margin: 0;
   font-family: "Poppins";
 }
 header {
-  background: #fff;
+  background: var(--base);
 }
 header .container {
   max-width: 1400px;
@@ -20,10 +26,11 @@ header .container {
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  
 }
 header a {
-  color: #333;
+  color: var(--counter);
   text-decoration: none;
 }
 .pages{
@@ -32,11 +39,23 @@ header a {
   margin: 0 auto;
 }
 
+
+/* Navigation stuff */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 /* homepage */
 .home {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
+  /* grid-template-columns: 3fr 1fr; */
   gap: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .workout-details {
   background: #fff;
@@ -49,12 +68,12 @@ header a {
 .workout-details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
-  color: var(--primary);
+  color: var(--sub);
 }
 .workout-details p {
   margin: 0;
   font-size: 0.9em;
-  color: #555;
+  color: var(--base);
 }
 .workout-details span {
   position: absolute;
@@ -76,29 +95,69 @@ input {
   margin-top: 10px;
   margin-bottom: 20px;
   width: 100%;
-  border: 1px solid #ddd;
+  border: 1px solid var(--counter);
   border-radius: 4px;
   box-sizing: border-box;
+  
 }
-form button {
-  background: var(--primary);
-  border: 0;
-  color: #fff;
-  padding: 10px;
-  font-family: "Poppins";
+
+h3 {
+  color: var(--counter);
+  text-transform: capitalize;
+}
+
+h2 {
+  color: var(--counter);
+  text-transform: capitalize;
+}
+
+p {
+  color: var(--light);
+}
+
+h1 {
+  min-width: 205px;
+}
+
+label {
+  color: var(--counter);
+}
+
+span {
+  color: var(--counter)
+}
+
+form button, button {
+  background: #fff;
+  color: var(--sub);
+  border: 2px solid var(--sub);
+  padding: 6px 10px;
   border-radius: 4px;
+  font-family: "Poppins";
   cursor: pointer;
+  font-size: 1em;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+
+
 div.error {
   padding: 10px;
-  background: #ffefef;
-  border: 1px solid var(--error);
-  color: var(--error);
+  background: var(--counter);
+  border: 1px solid var(--);
+  color: var(--light);
   border-radius: 4px;
   margin: 20px 0;
+  text-align: center;
 }
 input.error {
-  border: 1px solid var(--error);
+  border: 1px solid var(--counter);
 }
 
 /* navbar */
@@ -108,11 +167,20 @@ nav {
 }
 nav a, nav button {
   margin-left: 10px;
+  background: #fff;
+  color: var(--counter);
+  border: 2px solid var(--counter);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-family: "Poppins";
+  cursor: pointer;
+  font-size: 1em;
+  
 }
 nav button {
   background: #fff;
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  color: var(--sub);
+  border: 2px solid var(--sub);
   padding: 6px 10px;
   border-radius: 4px;
   font-family: "Poppins";
@@ -127,4 +195,32 @@ form.signup, form.login {
   padding: 20px;
   background: #fff;
   border-radius: 4px;
+}
+
+
+@media screen and (max-width: 599px) {
+  /* Your mobile styles here */
+
+  .home {
+    flex-direction: column;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 959px) {
+  /* Your tablet styles here */
+}
+
+@media screen and (min-width: 960px) and (max-width: 1279px) {
+  /* Your small laptop/desktop styles here */
+}
+
+
+@media screen and (min-width: 1280px) {
+  /* Your large desktop styles here */
 }

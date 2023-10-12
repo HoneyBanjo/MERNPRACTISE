@@ -109,7 +109,7 @@ const generate_workout = async ( req, res) => {
         model: "gpt-3.5-turbo",
         messages: [{
             "role": "user",
-            "content": `Create a workout of 4 exercises for a ${gender} with the height of ${height} and weight of ${weight} and only give the name, load and repetitions of the exercize`,
+            "content": `Create a workout of 4 exercises for a ${gender} with the height of ${height} and weight of ${weight} and give it in this format: Exercise: exercise, Load: load, Repetitions: repetitions.`,
         }]
     })
 

@@ -8,23 +8,43 @@ const UserDetails = () => {
     // const {user} = useUserContext()
     // i just dont know how this works man
 
-    const {dispatch} = useAuthContext()
+    const {user} = useAuthContext()
 
 
 
-    const [userId, setUserId] = useState("")
     const [weight, setWeight] = useState("")
     const [height, setHeight] = useState("")
     const [gender, setGender] = useState("")
 
-    useEffect(() => {
+    
 
-        const response = JSON.parse(localStorage.getItem('user'))
+    useEffect(() => {
         
-        setUserId(response.userid)
-        setGender(response.gender)
-        setHeight(response.height)
-        setWeight(response.gender)
+
+        const getData = async () => {
+
+            console.log("still works", user._id)
+            
+
+            const response = await fetch('/api/user/info/' + user._id, {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json()
+
+            setGender(json.gender)
+            setHeight(json.height)
+            setWeight(json.weight)
+
+            
+        }
+        
+
+        getData()
+
+        
+        
 
 
     }, [])
@@ -36,9 +56,24 @@ const UserDetails = () => {
 
         const userInfo = {gender, height, weight}
 
-        const response = await fetch("/api/user/info/")
+        const sendData = async () => {
+            const response = await fetch('/api/user/info/' + user._id, {
+                method: 'POST',
+                body: JSON.stringify(userInfo),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
 
-        // add the new state as updation to backend
+            setGender(response.gender)
+            setHeight(response.height)
+            setWeight(response.weight)
+
+        }
+        
+
+        sendData()
 
 
     }
@@ -48,7 +83,8 @@ const UserDetails = () => {
             <form onSubmit={handleSubmit}>
             <h3>Give your info man</h3>
 
-                <label>Gender</label>
+                
+                <h4>Gender: {gender}</h4>
                 <input
                     type="text"
                     onChange={(e) => setGender(e.target.value)}
@@ -56,7 +92,9 @@ const UserDetails = () => {
                     // className={emptyFields.includes("title") ? 'error' : ''}
                 />
 
-                <label>Give height in cm</label>
+                
+                <h4>Height: {height}</h4>
+
                 <input
                     type="text"
                     onChange={(e) => setHeight(e.target.value)}
@@ -64,7 +102,8 @@ const UserDetails = () => {
                     // className={emptyFields.includes("load") ? 'error' : ''}
                 />
 
-                <label>Give weight in kg</label>
+                <h4>Weight: {weight}</h4>
+
                 <input
                     type="text"
                     onChange={(e) => setWeight(e.target.value)}
@@ -72,11 +111,9 @@ const UserDetails = () => {
                     // className={emptyFields.includes("reps") ? 'error' : ''}
                 />
 
-                <button>Add workout</button>
+                <button>Add info</button>
             </form>
 
-            <h1>Here will be user details</h1>
-            
         </div>
      );
 }
