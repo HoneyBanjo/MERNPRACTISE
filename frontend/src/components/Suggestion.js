@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuthContext } from "../hooks/useAuthContext"
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext"
 
 
 const Suggestion = () => {
@@ -7,15 +8,32 @@ const Suggestion = () => {
 
     // USER STUFF
     const { user } = useAuthContext()
+    const { dispatch } = useWorkoutsContext()
     const [suggestion, setSuggestion] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [isDone, setIsDone] = useState(false)
     const [again, setAgain] = useState(true)
+    const [refPage, setRefPage] = useState(false)
+
 
     const [sendUser, setSendUser] = useState({
         gender: "",
         height: "",
-        weight: ""
+        weight: "",
+        age: "",
+        medicalConditions: "",
+        injuries: "",
+        injuryHistory: "",
+        exerciseHistory: "",
+        exercisePreferences: "",
+        dislikedExercises: "",
+        fitnessGoals: "",
+        timeCommitment: "",
+        equipmentAccess: "",
+        stressLevels: "",
+        sleepPatterns: "",
+        dietaryHabits: "",
+        dietaryRestrictions: ""
     })
 
     // WORKOUT STUFF
@@ -32,14 +50,29 @@ const Suggestion = () => {
         setSendUser({
             gender: userinfo.gender,
             height: userinfo.height,
-            weight: userinfo.weight
+            weight: userinfo.weight,
+            age: userinfo.age,
+            medicalConditions: userinfo.medicalConditions,
+            injuries: userinfo.injuries,
+            injuryHistory: userinfo.injuryHistory,
+            exerciseHistory: userinfo.exerciseHistory,
+            exercisePreferences: userinfo.exercisePreferences,
+            dislikedExercises: userinfo.dislikedExercises,
+            fitnessGoals: userinfo.fitnessGoals,
+            timeCommitment: userinfo.timeCommitment,
+            equipmentAccess: userinfo.equipmentAccess,
+            stressLevels: userinfo.stressLevels,
+            sleepPatterns: userinfo.sleepPatterns,
+            dietaryHabits: userinfo.dietaryHabits,
+            dietaryRestrictions: userinfo.dietaryRestrictions
         })
 
         }
         
         gestuff()
+        console.log("useEffect ran")
 
-      }, []);
+      }, [refPage]);
 
     const handleClick = async (e) => {
         e.preventDefault()
@@ -71,7 +104,11 @@ const Suggestion = () => {
 
             for (const line of lines) {
                 const [key, value] = line.split(': ');
-                // data[key.startsWith('- ') ? key.slice(2) : key] = value;
+                
+                if (key === 'Exercise') {
+                    // Set the entire description as the exercise title
+                    data.Exercise = value;
+                }
                 if (!key.startsWith(' - ')) {
                     data[key] = value;
                   }
@@ -90,30 +127,6 @@ const Suggestion = () => {
         setIsDone(true)
 
 
-        // VERSION 2
-
-        // // Split the string into an array of lines
-        // const lines = json.trim().split('\n');
-
-        // // Initialize an empty array to store exercise objects
-        // const exercises = [];
-
-        // // Iterate through the lines and convert them to objects
-        // lines.forEach((line, index) => {
-        // const parts = line.split(', '); // Split the line by ', ' to extract exercise details
-        // const exerciseObject = {};
-
-        // parts.forEach((part) => {
-        //     const [key, value] = part.split(': '); // Split each part by ': ' to get key and value
-        //     exerciseObject[key] = value; // Assign the key-value pair to the object
-        // });
-
-        // exercises.push(exerciseObject); // Add the object to the array
-        // });
-
-        // setSuggestion(exercises)
-
-
 
         // The formatObjects should look like this:
         /*
@@ -125,22 +138,58 @@ const Suggestion = () => {
             ]
         */
 
-            // input can look like this
-            /*
-            Exercise 1: Squats, Load: Bodyweight, Repetitions: 12
-            Exercise 2: Push-ups, Load: Bodyweight, Repetitions: 10
-            Exercise 3: Lunges, Load: Bodyweight, Repetitions: 12 (each leg)
-            Exercise 4: Plank, Load: Bodyweight, Repetitions: Hold for 30 seconds
-            */
+        // input can look like this
+        /*
+        Exercise 1: Squats, Load: Bodyweight, Repetitions: 12
+        Exercise 2: Push-ups, Load: Bodyweight, Repetitions: 10
+        Exercise 3: Lunges, Load: Bodyweight, Repetitions: 12 (each leg)
+        Exercise 4: Plank, Load: Bodyweight, Repetitions: Hold for 30 seconds
+        */
 
 
     }
 
-    const handleAccept = (e) => {
+    const handleAccept = async (e) => {
         e.preventDefault()
 
+        console.log(suggestion)
+
+        // store this data to workout suggestions?
 
 
+        for (const workout of suggestion) {
+
+
+            const workoutData = {
+                title: Object.values(workout)[0],
+                load: workout['Load in kg'],
+                reps: workout['Repetitions'],
+                sets: workout['Sets'],
+                rest: workout['Rest'],
+                user_id: user._id
+            };
+
+            console.log(workoutData)
+
+            const response = await fetch('/api/workouts/', {
+                method: 'POST',
+                body: JSON.stringify(workoutData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json()
+
+            if (response.ok) {
+
+                console.log("new workout added", json)
+                dispatch({type: 'CREATE_WORKOUT', payload: json})
+            }
+
+        }
+
+        setRefPage(true)
 
     }
 
@@ -153,8 +202,10 @@ const Suggestion = () => {
                 {suggestion.map((exercise, index) => (
                     <div key={index} className="exercise">
                         <h2>{Object.values(exercise)[0]}</h2>
-                        <p>Load: {exercise['Load']}</p>
+                        <p>Load: {exercise['Load in kg']}</p>
                         <p>Repetitions: {exercise['Repetitions']}</p>
+                        <p>Sets: {exercise['Sets']}</p>
+                        <p>Rest: {exercise['Rest']}</p>
                     </div>
                 ))}
             </div>

@@ -11,7 +11,7 @@ const WorkoutForm = () => {
     const [reps, setReps] = useState("")
     const [sets, setSets] = useState("")
     const [rest, setRest] = useState("")
-    const [equipment, setEquipment] = useState("")
+
 
     
     const [error, setError] = useState("")
@@ -26,7 +26,7 @@ const WorkoutForm = () => {
             return
         }
 
-        const workout = {title, load, reps}
+        const workout = {title, load, reps, sets, rest}
 
         const response = await fetch('/api/workouts', {
             method: 'POST',
@@ -46,6 +46,8 @@ const WorkoutForm = () => {
             setTitle("")
             setLoad("")
             setReps("")
+            setRest("")
+            setSets("")
             setError(null)
             setEmptyFields([])
             console.log("new workout added", json)
@@ -98,16 +100,6 @@ const WorkoutForm = () => {
                 value={rest}
                 className={emptyFields.includes("load") ? 'error' : ''}
             />
-            <label>Equipment: </label>
-            <input
-                type="text"
-                onChange={(e) => setEquipment(e.target.value)}
-                value={equipment}
-                className={emptyFields.includes("load") ? 'error' : ''}
-            />
-
-            
-
 
 
             <button>Add workout</button>

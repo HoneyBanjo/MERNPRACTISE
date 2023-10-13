@@ -33,7 +33,7 @@ const get_workout = async (req, res) => {
 
 // create a new workout
 const create_workout = async (req, res) => {
-    const {title, load, reps} = req.body
+    const {title, load, reps, sets, rest} = req.body;
     const user_id = req.user._id
 
     let emptyFields = []
@@ -53,7 +53,7 @@ const create_workout = async (req, res) => {
 
     try {
         // Create the workout
-        const workout = await Workout.create({title, load, reps, user_id})
+        const workout = await Workout.create({title, load, reps, user_id, rest, sets})
 
         // find the user by id
         const user = await User.findById(user_id);
@@ -66,10 +66,12 @@ const create_workout = async (req, res) => {
         // Add the workout to the user's workout history
         user.workoutHistory.push({
         workout: workout._id, // Reference to the new workout
-        title, title,
+        title: title,
         date: new Date(), // Add the current date or a date associated with the workout
         reps: reps,
         load: load,
+        rest: rest,
+        sets: sets
       });
         
         // Save the updated user document with the workout history
@@ -122,20 +124,58 @@ const update_workout = async (req, res) => {
 
 // recommend workout !!!!!!!!!!!!!!!!
 const generate_workout = async ( req, res) => {
-    const {gender, weight, height} = req.body
+    const {
+        gender, 
+        weight, 
+        height, 
+        age,
+        medicalConditions,
+        injuries,
+        injuryHistory,
+        exerciseHistory,
+        exercisePreferences,
+        dislikedExercises,
+        fitnessGoals,
+        timeCommitment,
+        equipmentAccess,
+        stressLevels,
+        sleepPatterns,
+        dietaryHabits,
+        dietaryRestrictions
+    } = req.body
     
-    console.log(gender, weight, height)
+    console.log(gender, 
+        weight, 
+        height, 
+        age,
+        medicalConditions,
+        injuries,
+        injuryHistory,
+        exerciseHistory,
+        exercisePreferences,
+        dislikedExercises,
+        fitnessGoals,
+        timeCommitment,
+        equipmentAccess,
+        stressLevels,
+        sleepPatterns,
+        dietaryHabits,
+        dietaryRestrictions
+        )
 
 
     const workout = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         messages: [{
             "role": "user",
-            "content": `Create a workout of 4 exercises for a ${gender} with the height of ${height} and weight of ${weight} and give it in this format: Exercise: exercise, Load: load, Repetitions: repetitions. No extra advice.`,
+            "content": `Create a workout of 4 exercises for a person with these features; gender:${gender}, height:${height}, weight:${weight}, age${age}, medical conditions:${medicalConditions}, injuries:${injuries}, injury history:${injuryHistory}, exercise history:${exerciseHistory}, exercise preferences:${exercisePreferences}, disliked exercises:${dislikedExercises}, fitness goals:${fitnessGoals}, time commitment:${timeCommitment}, equipment access:${equipmentAccess}, stress levels:${stressLevels}, sleep pattern:${sleepPatterns}, dietary habits:${dietaryHabits}, dietary restrictions:${dietaryRestrictions} and give it in this format: Exercise: exercise, Load in kg: load (if bodyweight, then 0kg), Repetitions: repetitions, Sets: sets, Rest: rest. No extra advice, no notes.`,
+        
         }]
     })
 
-    // add the workout to a Users workout suggestions History??
+    //gpt-4 brings answer in 17 seconds
+    //gpt-3.5 turbo answer in 23 seconds
+   
 
 
 

@@ -9,16 +9,24 @@ const workoutSchema = new Schema({
         required: true
     },
     reps: {
-        type: Number,
-        required: true
+        type: String,
+        // required: true
     },
     load: {
-        type: Number,
-        required: true
+        type: String,
+        // required: true
+    },
+    sets: {
+        type: String,
+        // required: true
+    },
+    rest: {
+        type: String,
+        // required: true
     },
     user_id: {
         type: String,
-        required: true
+        // required: true
     }
 }, {timestamps: true})
 
