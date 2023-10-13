@@ -9,8 +9,29 @@ const createToken = (_id) => {
 // login a user
 const loginUser = async (req, res) => {
   const {email, password} = req.body
-  const {_id, gender, weight, height} = await User.findOne({email: email})
+  
+  const {
+    _id, 
+    gender, 
+    weight, 
+    height,
+    age,
+    medicalConditions,
+    injuries,
+    injuryHistory,
+    exerciseHistory,
+    exercisePreferences,
+    dislikedExercises,
+    fitnessGoals,
+    timeCommitment,
+    equipmentAccess,
+    stressLevels,
+    sleepPatterns,
+    dietaryHabits,
+    dietaryRestrictions,
+    workoutHistory} = await User.findOne({email: email})
 
+  
 
   try {
     const user = await User.login(email, password)
@@ -18,7 +39,29 @@ const loginUser = async (req, res) => {
     // create a token
     const token = createToken(user._id)
 
-    res.status(200).json({email, token, _id, gender, height, weight})
+    res.status(200).json({
+      email, 
+      token, 
+      _id, 
+      gender, 
+      height, 
+      weight,
+      age,
+      medicalConditions,
+      injuries,
+      injuryHistory,
+      exerciseHistory,
+      exercisePreferences,
+      dislikedExercises,
+      fitnessGoals,
+      timeCommitment,
+      equipmentAccess,
+      stressLevels,
+      sleepPatterns,
+      dietaryHabits,
+      dietaryRestrictions,
+      workoutHistory
+  })
   } catch (error) {
     res.status(400).json({error: error.message})
   }
@@ -31,14 +74,58 @@ const signupUser = async (req, res) => {
   try {
     const user = await User.signup(email, password)
 
+    const {
+      _id, 
+      gender, 
+      weight, 
+      height,
+      age,
+      medicalConditions,
+      injuries,
+      injuryHistory,
+      exerciseHistory,
+      exercisePreferences,
+      dislikedExercises,
+      fitnessGoals,
+      timeCommitment,
+      equipmentAccess,
+      stressLevels,
+      sleepPatterns,
+      dietaryHabits,
+      dietaryRestrictions,
+      workoutHistory} = await User.findOne({email: email})
     // create a token
     const token = createToken(user._id)
 
-    res.status(200).json({email, token})
+    res.status(200).json({
+      email, 
+      token, 
+      _id, 
+      gender, 
+      height, 
+      weight,
+      age,
+      medicalConditions,
+      injuries,
+      injuryHistory,
+      exerciseHistory,
+      exercisePreferences,
+      dislikedExercises,
+      fitnessGoals,
+      timeCommitment,
+      equipmentAccess,
+      stressLevels,
+      sleepPatterns,
+      dietaryHabits,
+      dietaryRestrictions,
+      workoutHistory
+    })
   } catch (error) {
     res.status(400).json({error: error.message})
   }
 }
+
+
 // add user info !!!!!!!!!!!!!!!!
 const updateinfoUser = async (req, res) => {
     const { id } = req.params

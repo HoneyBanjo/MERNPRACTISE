@@ -37,6 +37,9 @@ header a {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -69,6 +72,7 @@ header a {
   margin: 0 0 10px 0;
   font-size: 1.2em;
   color: var(--sub);
+  text-transform: capitalize;
 }
 .workout-details p {
   margin: 0;
@@ -100,6 +104,45 @@ input {
   box-sizing: border-box;
   
 }
+
+
+/* ADD DETAILS PAGE */
+
+.form-d {
+  width: 850px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.form-inner {
+  width: 850px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-column {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px;
+  flex-direction: column;
+  width: 400px;
+
+}
+
+
+
+/* */
 
 h3 {
   color: var(--counter);
@@ -138,11 +181,35 @@ form button, button {
   font-size: 1em;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+form h4 {
+  color: var(--light);
+  text-transform: capitalize;
+}
+
+
+
+
+
+/* Loading stuff */
+
+@keyframes loadAnimation {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.loading {
+  color: var(--sub);
+  animation: loadAnimation 3s infinite;
+  text-align: center;
 }
 
 
@@ -168,8 +235,8 @@ nav {
 nav a, nav button {
   margin-left: 10px;
   background: #fff;
-  color: var(--counter);
-  border: 2px solid var(--counter);
+  color: var(--sub);
+  border: 2px solid var(--sub);
   padding: 6px 10px;
   border-radius: 4px;
   font-family: "Poppins";
@@ -179,8 +246,8 @@ nav a, nav button {
 }
 nav button {
   background: #fff;
-  color: var(--sub);
-  border: 2px solid var(--sub);
+  color: var(--counter);
+  border: 2px solid var(--counter);
   padding: 6px 10px;
   border-radius: 4px;
   font-family: "Poppins";

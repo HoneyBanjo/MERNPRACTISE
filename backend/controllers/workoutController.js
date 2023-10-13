@@ -1,5 +1,6 @@
 const openai = require('../config/openaiConfig')
 const Workout = require('../models/workoutModel')
+const User = require('../models/userModel')
 const mongoose = require('mongoose')
 
 
@@ -33,7 +34,7 @@ const get_workout = async (req, res) => {
 // create a new workout
 const create_workout = async (req, res) => {
     const {title, load, reps} = req.body
-
+    const user_id = req.user._id
 
     let emptyFields = []
 
@@ -51,8 +52,29 @@ const create_workout = async (req, res) => {
     }
 
     try {
-        const user_id = req.user._id
+        // Create the workout
         const workout = await Workout.create({title, load, reps, user_id})
+
+        // find the user by id
+        const user = await User.findById(user_id);
+
+        // if no user, send no user
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Add the workout to the user's workout history
+        user.workoutHistory.push({
+        workout: workout._id, // Reference to the new workout
+        title, title,
+        date: new Date(), // Add the current date or a date associated with the workout
+        reps: reps,
+        load: load,
+      });
+        
+        // Save the updated user document with the workout history
+        await user.save();
+
         res.status(200).json(workout)
 
     } catch (error) {
@@ -109,7 +131,7 @@ const generate_workout = async ( req, res) => {
         model: "gpt-3.5-turbo",
         messages: [{
             "role": "user",
-            "content": `Create a workout of 4 exercises for a ${gender} with the height of ${height} and weight of ${weight} and give it in this format: Exercise: exercise, Load: load, Repetitions: repetitions.`,
+            "content": `Create a workout of 4 exercises for a ${gender} with the height of ${height} and weight of ${weight} and give it in this format: Exercise: exercise, Load: load, Repetitions: repetitions. No extra advice.`,
         }]
     })
 

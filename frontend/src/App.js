@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import UserDetails from './pages/UserDetails';
+import HowDoes from './pages/HowDoes';
 
 function App() {
   const {user} = useAuthContext()
@@ -34,6 +35,10 @@ function App() {
             <Route
             path="/userdetails"
             element={user ? <UserDetails /> : <Navigate to="/userdetails" />}
+            />
+            <Route
+            path="/howdoes"
+            element={user ? <HowDoes /> : <Navigate to="/howdoes" />}
             />
           </Routes>
         </div>

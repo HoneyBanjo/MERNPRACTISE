@@ -1,25 +1,20 @@
--Store the recommended workouts in to a localStorage?
 
--Store the recommended workouts in to a users recommendation history?
-
--Store completed workouts in to a users history?
-    -> Remove from recommendations if done in the past 4 days
-
+MAYBE LATER
 -Create a session that contains workouts?
     -> User can add and remove workouts from this session
 
--Add breaks and times for the workout?
-
--If workouts are empty, recommend a session to do?
-
 -Email validation?
 
--Add Page to update userDetails?
+
+THOUGHTS
+Add the most used title in workouts to some kind of display?
+
+Make functionality to change suggestion in to a workout.
+
+Check if medical research is possible***
 
 
-NEXT
-Position the suggestion so that the user can see it while adding work outs
+HOT
+When adding workout, give suggestion based on previously done workout title, but add Load/Reps
 
-Add a history
-
-Make a session card that contains the workouts.
+Add to the AI request, previous suggestions of the session.

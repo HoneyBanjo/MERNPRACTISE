@@ -24,6 +24,7 @@ const Navbar = () => {
                     <div>
                         <span>{user.email}</span>
                         <span><Link to="/userdetails">Add details</Link></span>
+                        <span><Link to="/howdoes">How this works</Link></span>
                         <button onClick={handleClick}>Log out</button>
                     </div>
                     )}

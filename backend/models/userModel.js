@@ -26,7 +26,75 @@ const userSchema = new Schema ({
     height: {
         type: String,
         // required: true
-    }
+    },
+    age: {
+        type: String,
+        required: false
+    },
+    medicalConditions: {
+        type: String,
+        // required: true
+    },
+    injuries: {
+        type: String,
+        // required: true
+    },
+    injuryHistory: {
+        type: String,
+        // required: true
+    },
+    exerciseHistory: {
+        type: String,
+        // required: true
+    },
+    exercisePreferences: {
+        type: String,
+        // required: true
+    },
+    dislikedExercises: {
+        type: String,
+        // required: true
+    },
+    fitnessGoals: {
+        type: String,
+        // required: true
+    },
+    timeCommitment: {
+        type: String,
+        // required: true
+    },
+    equipmentAccess: {
+        type: String,
+        // required: true
+    },
+    stressLevels: {
+        type: String,
+        // required: true
+    },
+    sleepPatterns: {
+        type: String,
+        // required: true
+    },
+    dietaryHabits: {
+        type: String,
+        // required: true
+    },
+    dietaryRestrictions: {
+        type: String,
+        // required: true
+    },
+    workoutHistory: [
+        {
+          workout: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Workout', // Reference to the Workout collection
+          },
+          title: String,
+          date: Date,
+          reps: Number,
+          load: Number,
+        },
+      ],
 })
 
 // static signup method
@@ -59,16 +127,6 @@ userSchema.statics.signup = async function(email, password) {
     return user
 }
 
-// static user info method !!!!!!!!!!!!!!!!
-// userSchema.statics.signup = async function(gender, weight, height) {
-
-//     if ( !gender || !weight || !height) {
-//         throw Error("fill your info you silly person")
-//     }
-
-//     const user = await 
-
-// }
 
 
 // static login method

@@ -10,7 +10,7 @@ import Suggestion from "../components/Suggestion"
 const Home = () => {
   const { workouts, dispatch } = useWorkoutsContext()
   const {user} = useAuthContext()
-  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -25,7 +25,7 @@ const Home = () => {
         dispatch({type: 'SET_WORKOUTS', payload: json})
       }
 
-      setIsLoading(false);
+
 
     }
 
@@ -38,14 +38,11 @@ const Home = () => {
   return (
     <div className="home">
       <div className="workouts">
-        {workouts && workouts.length > 0 ? (
-          workouts.map(workout => (
-            <WorkoutDetails workout={workout} key={workout._id} />
-          ))
-        ) : (
-          <Suggestion />
-        )}
-      </div>
+      {workouts && workouts.map(workout => (
+        <WorkoutDetails workout={workout} key={workout._id} />
+      ))}
+    </div>
+    <Suggestion/>
       <WorkoutForm />
     </div>
   );
